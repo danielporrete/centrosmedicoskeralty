@@ -126,6 +126,33 @@ export type Database = {
         }
         Relationships: []
       }
+      malla_diferenciales: {
+        Row: {
+          created_at: string
+          diferencial_linea: string | null
+          diferencial_servicio: string | null
+          id: string
+          objetivo_aprendizaje_linea: string | null
+          objetivo_aprendizaje_servicio: string | null
+        }
+        Insert: {
+          created_at?: string
+          diferencial_linea?: string | null
+          diferencial_servicio?: string | null
+          id?: string
+          objetivo_aprendizaje_linea?: string | null
+          objetivo_aprendizaje_servicio?: string | null
+        }
+        Update: {
+          created_at?: string
+          diferencial_linea?: string | null
+          diferencial_servicio?: string | null
+          id?: string
+          objetivo_aprendizaje_linea?: string | null
+          objetivo_aprendizaje_servicio?: string | null
+        }
+        Relationships: []
+      }
       malla_formacion: {
         Row: {
           agrupacion: string | null

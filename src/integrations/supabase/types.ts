@@ -222,6 +222,33 @@ export type Database = {
         }
         Relationships: []
       }
+      sedes_servicios: {
+        Row: {
+          ciudad: string | null
+          created_at: string
+          id: string
+          nombre_sede: string | null
+          sede_reps: string | null
+          servicio: string | null
+        }
+        Insert: {
+          ciudad?: string | null
+          created_at?: string
+          id?: string
+          nombre_sede?: string | null
+          sede_reps?: string | null
+          servicio?: string | null
+        }
+        Update: {
+          ciudad?: string | null
+          created_at?: string
+          id?: string
+          nombre_sede?: string | null
+          sede_reps?: string | null
+          servicio?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

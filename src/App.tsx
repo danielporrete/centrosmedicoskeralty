@@ -25,6 +25,7 @@ const App = () => (
           <Route path="/import" element={<ImportCSV />} />
           <Route path="/import-fundamental" element={<ImportFundamental />} />
           <Route path="/import-diferenciales" element={<ImportDiferenciales />} />
+          <Route path="/import-sedes" element={<ImportSedes />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

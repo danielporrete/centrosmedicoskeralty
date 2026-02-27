@@ -8,6 +8,7 @@ import Resultados from "./pages/Resultados";
 import ImportCSV from "./pages/ImportCSV";
 import ImportFundamental from "./pages/ImportFundamental";
 import ImportDiferenciales from "./pages/ImportDiferenciales";
+import ImportSedes from "./pages/ImportSedes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();

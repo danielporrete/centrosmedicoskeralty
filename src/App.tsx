@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Resultados from "./pages/Resultados";
 import ImportCSV from "./pages/ImportCSV";
+import ImportFundamental from "./pages/ImportFundamental";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/resultados" element={<Resultados />} />
           <Route path="/import" element={<ImportCSV />} />
+          <Route path="/import-fundamental" element={<ImportFundamental />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

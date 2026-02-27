@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import KералtyLogo from "./KералtyLogo";
+import KeraltyLogo from "./KeraltyLogo";
 
 const Layout = ({ children }: { children: ReactNode }) => (
   <div className="min-h-screen bg-background">

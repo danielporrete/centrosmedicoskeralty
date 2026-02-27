@@ -162,6 +162,39 @@ export type Database = {
         }
         Relationships: []
       }
+      malla_fundamental: {
+        Row: {
+          agrupacion: string | null
+          cargo: string | null
+          created_at: string
+          fundamental: string | null
+          id: string
+          linea: string | null
+          objetivo_aprendizaje: string | null
+          responsable: string | null
+        }
+        Insert: {
+          agrupacion?: string | null
+          cargo?: string | null
+          created_at?: string
+          fundamental?: string | null
+          id?: string
+          linea?: string | null
+          objetivo_aprendizaje?: string | null
+          responsable?: string | null
+        }
+        Update: {
+          agrupacion?: string | null
+          cargo?: string | null
+          created_at?: string
+          fundamental?: string | null
+          id?: string
+          linea?: string | null
+          objetivo_aprendizaje?: string | null
+          responsable?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

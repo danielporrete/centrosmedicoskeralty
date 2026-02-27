@@ -126,6 +126,42 @@ export type Database = {
         }
         Relationships: []
       }
+      malla_formacion: {
+        Row: {
+          agrupacion: string | null
+          cargo: string | null
+          created_at: string
+          esencial: string | null
+          herramienta_tecnologica: string | null
+          id: string
+          linea: string | null
+          objetivo_aprendizaje: string | null
+          responsable: string | null
+        }
+        Insert: {
+          agrupacion?: string | null
+          cargo?: string | null
+          created_at?: string
+          esencial?: string | null
+          herramienta_tecnologica?: string | null
+          id?: string
+          linea?: string | null
+          objetivo_aprendizaje?: string | null
+          responsable?: string | null
+        }
+        Update: {
+          agrupacion?: string | null
+          cargo?: string | null
+          created_at?: string
+          esencial?: string | null
+          herramienta_tecnologica?: string | null
+          id?: string
+          linea?: string | null
+          objetivo_aprendizaje?: string | null
+          responsable?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

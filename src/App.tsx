@@ -8,6 +8,7 @@ import Resultados from "./pages/Resultados";
 import ImportCSV from "./pages/ImportCSV";
 import ImportFundamental from "./pages/ImportFundamental";
 import ImportDiferenciales from "./pages/ImportDiferenciales";
+import ImportSedes from "./pages/ImportSedes";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/import" element={<ImportCSV />} />
           <Route path="/import-fundamental" element={<ImportFundamental />} />
           <Route path="/import-diferenciales" element={<ImportDiferenciales />} />
+          <Route path="/import-sedes" element={<ImportSedes />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

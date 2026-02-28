@@ -155,10 +155,22 @@ const Resultados = () => {
 
           <main className="flex-1 p-6 space-y-6 bg-background overflow-auto">
             {/* Summary bar */}
-            <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-              {cargo && <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">{cargo}</span>}
-              {linea && <span className="bg-secondary/10 text-secondary px-3 py-1 rounded-full font-medium">{linea}</span>}
-              {servicio && <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">{servicio}</span>}
+            <div className="flex items-center justify-between">
+              <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+                {cargo && <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">{cargo}</span>}
+                {linea && <span className="bg-secondary/10 text-secondary px-3 py-1 rounded-full font-medium">{linea}</span>}
+                {servicio && <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">{servicio}</span>}
+              </div>
+              <ToggleGroup type="single" value={viewMode} onValueChange={(v) => v && setViewMode(v)} className="border border-border rounded-lg p-0.5">
+                <ToggleGroupItem value="texto" aria-label="Vista texto" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                  <AlignLeft className="w-3.5 h-3.5" />
+                  Texto
+                </ToggleGroupItem>
+                <ToggleGroupItem value="tabla" aria-label="Vista tabla" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                  <Table className="w-3.5 h-3.5" />
+                  Tabla
+                </ToggleGroupItem>
+              </ToggleGroup>
             </div>
 
             {/* 3 Horizontal Sections */}

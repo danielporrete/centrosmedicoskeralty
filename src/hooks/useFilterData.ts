@@ -90,3 +90,49 @@ export const useCursosByCargo = (cargo?: string, linea?: string) =>
     },
     enabled: !!cargo,
   });
+
+export const useFundamentalesByCargo = (cargo?: string, linea?: string) =>
+  useQuery({
+    queryKey: ["fundamentales", cargo, linea],
+    queryFn: async () => {
+      const data = await fetchAllRows(
+        "malla_fundamental",
+        "id,fundamental,objetivo_aprendizaje,cargo,linea",
+        (q: any) => {
+          let query = q.order("fundamental");
+          if (cargo) query = query.eq("cargo", cargo);
+          if (linea) query = query.eq("linea", linea);
+          return query;
+        }
+      );
+      return data;
+    },
+    enabled: !!cargo,
+  });
+
+export const useHerramientaTecnologica = (cargo?: string, linea?: string) =>
+  useQuery({
+    queryKey: ["herramienta-tecnologica", cargo, linea],
+    queryFn: async () => {
+      const data = await fetchAllRows(
+        "malla_formacion",
+        "herramienta_tecnologica",
+        (q: any) => {
+          let query = q.not("herramienta_tecnologica", "is", null);
+          if (cargo) query = query.eq("cargo", cargo);
+          if (linea) query = query.eq("linea", linea);
+          return query;
+        }
+      );
+      // Count occurrences and return most common
+      const counts: Record<string, number> = {};
+      data.forEach((d: any) => {
+        if (d.herramienta_tecnologica) {
+          counts[d.herramienta_tecnologica] = (counts[d.herramienta_tecnologica] || 0) + 1;
+        }
+      });
+      const sorted = Object.entries(counts).sort((a, b) => b[1] - a[1]);
+      return sorted.length > 0 ? sorted[0][0] : null;
+    },
+    enabled: !!cargo,
+  });

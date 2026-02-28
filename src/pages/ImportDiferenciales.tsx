@@ -39,7 +39,7 @@ function parseCSV(text: string): string[][] {
   }
   if (current || row.length > 0) {
     row.push(current.trim());
-    if (row.length >= 4) rows.push(row);
+    if (row.length >= 6) rows.push(row);
   }
   return rows;
 }

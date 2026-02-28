@@ -40,9 +40,24 @@ export const useCargos = () =>
     },
   });
 
-export const useCursosByCargo = (cargo?: string) =>
+export const useLineasByCargo = (cargo?: string) =>
   useQuery({
-    queryKey: ["cursos-malla", cargo],
+    queryKey: ["lineas-by-cargo", cargo],
+    queryFn: async () => {
+      const data = await fetchAllRows(
+        "malla_formacion",
+        "linea",
+        (q: any) => q.eq("cargo", cargo).not("linea", "is", null).order("linea")
+      );
+      const unique = [...new Set(data.map((d) => d.linea))].filter(Boolean);
+      return unique.map((name) => ({ value: name!, label: name! }));
+    },
+    enabled: !!cargo,
+  });
+
+export const useCursosByCargo = (cargo?: string, linea?: string) =>
+  useQuery({
+    queryKey: ["cursos-malla", cargo, linea],
     queryFn: async () => {
       const data = await fetchAllRows(
         "malla_formacion",
@@ -50,6 +65,7 @@ export const useCursosByCargo = (cargo?: string) =>
         (q: any) => {
           let query = q.order("esencial");
           if (cargo) query = query.eq("cargo", cargo);
+          if (linea) query = query.eq("linea", linea);
           return query;
         }
       );

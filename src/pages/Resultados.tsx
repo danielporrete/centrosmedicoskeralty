@@ -10,7 +10,8 @@ const Resultados = () => {
   const navigate = useNavigate();
 
   const cargo = params.get("cargo") || undefined;
-  const { data: courses, isLoading } = useCursosByCargo(cargo);
+  const linea = params.get("linea") || undefined;
+  const { data: courses, isLoading } = useCursosByCargo(cargo, linea);
 
   return (
     <Layout>

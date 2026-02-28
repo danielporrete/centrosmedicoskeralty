@@ -3,17 +3,25 @@ import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCargos } from "@/hooks/useFilterData";
+import { useCargos, useLineasByCargo } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 const Index = () => {
   const [cargo, setCargo] = useState<string>("");
+  const [linea, setLinea] = useState<string>("");
   const { data: cargos, isLoading } = useCargos();
+  const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);
   const navigate = useNavigate();
+
+  const handleCargoChange = (value: string) => {
+    setCargo(value);
+    setLinea("");
+  };
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (cargo) params.set("cargo", cargo);
+    if (linea) params.set("linea", linea);
     navigate(`/resultados?${params.toString()}`);
   };
 
@@ -36,12 +44,28 @@ const Index = () => {
           <div className="bg-card rounded-2xl border border-border p-8 space-y-6 shadow-sm">
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Cargo</label>
-              <Select value={cargo} onValueChange={setCargo}>
+              <Select value={cargo} onValueChange={handleCargoChange}>
                 <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder={isLoading ? "Cargando..." : "Selecciona un cargo"} />
                 </SelectTrigger>
                 <SelectContent>
                   {cargos?.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Línea</label>
+              <Select value={linea} onValueChange={setLinea} disabled={!cargo}>
+                <SelectTrigger className="h-12 text-base">
+                  <SelectValue placeholder={!cargo ? "Selecciona un cargo primero" : isLoadingLineas ? "Cargando..." : "Selecciona una línea"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {lineas?.map((opt) => (
                     <SelectItem key={opt.value} value={opt.value}>
                       {opt.label}
                     </SelectItem>

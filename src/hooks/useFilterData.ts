@@ -49,7 +49,9 @@ export const useLineasByCargo = (cargo?: string) =>
         "linea",
         (q: any) => q.eq("cargo", cargo).not("linea", "is", null).order("linea")
       );
-      const unique = [...new Set(data.map((d) => d.linea))].filter(Boolean);
+      const unique = [...new Set(data.map((d) => d.linea))].filter(
+        (v) => Boolean(v) && v !== "Temas específicos centros médicos"
+      );
       return unique.map((name) => ({ value: name!, label: name! }));
     },
     enabled: !!cargo,

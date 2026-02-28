@@ -4,10 +4,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo, useFundamentalesByCargo, useHerramientaTecnologica, useDiferencialesByLinea, useDiferencialesByServicio } from "@/hooks/useFilterData";
 import { Badge } from "@/components/ui/badge";
-import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table } from "lucide-react";
+import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table, Download, FileText, FileSpreadsheet } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Table as UITable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import KeraltyLogo from "@/components/KeraltyLogo";
+import { downloadPDF, downloadCSV, CENTROS_MEDICOS_DATA } from "@/utils/downloadResults";
 import {
   Sidebar,
   SidebarContent,

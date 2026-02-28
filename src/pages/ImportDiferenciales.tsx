@@ -30,7 +30,7 @@ function parseCSV(text: string): string[][] {
         if (char === '\r') i++;
         row.push(current.trim());
         current = "";
-        if (row.length >= 4) rows.push(row);
+        if (row.length >= 6) rows.push(row);
         row = [];
       } else {
         current += char;

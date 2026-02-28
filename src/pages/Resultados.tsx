@@ -313,59 +313,59 @@ const Resultados = () => {
                     </div>
                     {!collapsed[idx] && (
                       isFundamental ? (
-                        isLoadingFundamentales ? (
-                          <p className="text-sm text-muted-foreground">Cargando...</p>
-                        ) : fundamentalData.length > 0 ? (
-                          viewMode === "tabla" ? (
-                            <UITable>
-                              <TableHeader>
-                                <TableRow>
-                                  <TableHead className="font-bold">Fundamental</TableHead>
-                                  <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
-                                </TableRow>
-                              </TableHeader>
-                              <TableBody>
-                                {fundamentalData.map((item: any) => (
-                                  <TableRow key={item.id}>
-                                    <TableCell>
-                                      <div className="flex items-center gap-2">
-                                        <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
-                                        {herramientaTag && (
-                                          <span className="text-muted-foreground text-[0.65rem]">Plataforma</span>
-                                        )}
-                                        {herramientaTag && (
-                                          <Badge variant="secondary" className="text-[0.65rem] px-2 py-0 bg-secondary/40">{herramientaTag}</Badge>
-                                        )}
-                                      </div>
-                                    </TableCell>
-                                    <TableCell className="text-muted-foreground text-sm">{item.objetivo_aprendizaje}</TableCell>
+                        <>
+                        {/* Subsección Fundamentales */}
+                        <div className="mb-6">
+                          <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Fundamentales</h3>
+                          {isLoadingFundamentales ? (
+                            <p className="text-sm text-muted-foreground">Cargando...</p>
+                          ) : fundamentalData.length > 0 ? (
+                            viewMode === "tabla" ? (
+                              <UITable>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead className="font-bold">Fundamental</TableHead>
+                                    <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
                                   </TableRow>
-                                ))}
-                              </TableBody>
-                            </UITable>
-                          ) : (
-                            <div className="space-y-4">
-                              {fundamentalData.map((item: any) => (
-                                <div key={item.id} className="pl-3 border-l-2 border-secondary/30">
-                                  <div className="flex items-center gap-2">
+                                </TableHeader>
+                                <TableBody>
+                                  {fundamentalData.map((item: any) => (
+                                    <TableRow key={item.id}>
+                                      <TableCell className="font-bold text-foreground text-sm">{item.fundamental}</TableCell>
+                                      <TableCell className="text-muted-foreground text-sm">{item.objetivo_aprendizaje}</TableCell>
+                                    </TableRow>
+                                  ))}
+                                </TableBody>
+                              </UITable>
+                            ) : (
+                              <div className="space-y-4">
+                                {fundamentalData.map((item: any) => (
+                                  <div key={item.id} className="pl-3 border-l-2 border-secondary/30">
                                     <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
-                                    {herramientaTag && (
-                                      <span className="text-muted-foreground text-[0.65rem]">Plataforma</span>
-                                    )}
-                                    {herramientaTag && (
-                                      <Badge variant="secondary" className="text-[0.65rem] px-2 py-0 bg-secondary/40">{herramientaTag}</Badge>
+                                    {item.objetivo_aprendizaje && (
+                                      <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
                                     )}
                                   </div>
-                                  {item.objetivo_aprendizaje && (
-                                    <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
-                                  )}
-                                </div>
-                              ))}
+                                ))}
+                              </div>
+                            )
+                          ) : (
+                            <p className="text-sm text-muted-foreground">Sin resultados para los filtros seleccionados.</p>
+                          )}
+                        </div>
+
+                        {/* Subsección Plataforma Tecnológica */}
+                        <div>
+                          <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Plataforma Tecnológica</h3>
+                          {herramientaTag ? (
+                            <div className="pl-3 border-l-2 border-secondary/30">
+                              <p className="font-bold text-foreground text-sm">{herramientaTag}</p>
                             </div>
-                          )
-                        ) : (
-                          <p className="text-sm text-muted-foreground">Sin resultados para los filtros seleccionados.</p>
-                        )
+                          ) : (
+                            <p className="text-sm text-muted-foreground">Sin información disponible.</p>
+                          )}
+                        </div>
+                        </>
                       ) : (
                         <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
                           Contenido próximamente...

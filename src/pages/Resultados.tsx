@@ -51,6 +51,9 @@ const Resultados = () => {
   const { data: diferencialLinea, isLoading: isLoadingDiferenciales } = useDiferencialesByLinea(
     params.get("linea") || undefined
   );
+  const { data: diferencialServicio, isLoading: isLoadingDifServicio } = useDiferencialesByServicio(
+    params.get("servicio") || undefined
+  );
 
   // Split esenciales into Normativos (matching selected linea) and Centros Médicos
   const esenciales = cursosMalla?.filter((c: any) => c.esencial) || [];

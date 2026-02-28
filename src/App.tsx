@@ -9,6 +9,7 @@ import ImportCSV from "./pages/ImportCSV";
 import ImportFundamental from "./pages/ImportFundamental";
 import ImportDiferenciales from "./pages/ImportDiferenciales";
 import ImportSedes from "./pages/ImportSedes";
+import ImportSedesColores from "./pages/ImportSedesColores";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/import-fundamental" element={<ImportFundamental />} />
           <Route path="/import-diferenciales" element={<ImportDiferenciales />} />
           <Route path="/import-sedes" element={<ImportSedes />} />
+          <Route path="/import-sedes-colores" element={<ImportSedesColores />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

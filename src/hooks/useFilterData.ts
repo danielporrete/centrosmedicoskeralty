@@ -30,7 +30,7 @@ export const useCargos = () =>
   useQuery({
     queryKey: ["cargos"],
     queryFn: async () => {
-      const data = await fetchAllRows<{ cargo: string }>(
+      const data = await fetchAllRows(
         "malla_formacion",
         "cargo",
         (q: any) => q.not("cargo", "is", null).order("cargo")

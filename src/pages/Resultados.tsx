@@ -193,6 +193,8 @@ const Resultados = () => {
                   </Button>
                 </div>
 
+                {!collapsed[0] && (
+                <>
                 {/* Subsección Normativos */}
                 <div className="mb-6">
                   <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Normativos</h3>
@@ -275,6 +277,8 @@ const Resultados = () => {
                     );
                   })()}
                 </div>
+                </>
+                )}
               </section>
 
               {/* Ejes formativos fundamentales & diferenciales */}

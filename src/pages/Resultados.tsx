@@ -27,6 +27,15 @@ const Resultados = () => {
   const { data: cargos, isLoading } = useCargos();
   const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);
   const { data: servicios, isLoading: isLoadingServicios } = useServiciosByLinea(linea || undefined);
+  const { data: cursosMalla, isLoading: isLoadingCursos } = useCursosByCargo(
+    params.get("cargo") || undefined,
+    params.get("linea") || undefined
+  );
+
+  // Split esenciales into Normativos (matching selected linea) and Centros Médicos
+  const esenciales = cursosMalla?.filter((c: any) => c.esencial) || [];
+  const normativos = esenciales.filter((c: any) => c.linea !== "Temas específicos centros médicos");
+  const centrosMedicos = esenciales.filter((c: any) => c.linea === "Temas específicos centros médicos");
 
   const handleCargoChange = (value: string) => {
     setCargo(value);

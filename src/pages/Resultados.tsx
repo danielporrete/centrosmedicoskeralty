@@ -9,8 +9,8 @@ const Resultados = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  const agrupacion = params.get("agrupacion") || undefined;
-  const { data: courses, isLoading } = useCursosByAgrupacion(agrupacion);
+  const cargo = params.get("cargo") || undefined;
+  const { data: courses, isLoading } = useCursosByCargo(cargo);
 
   return (
     <Layout>

@@ -3,7 +3,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo } from "@/hooks/useFilterData";
-import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award } from "lucide-react";
+import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Table as UITable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import KeraltyLogo from "@/components/KeraltyLogo";
 import {
   Sidebar,

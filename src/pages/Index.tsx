@@ -3,17 +3,17 @@ import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useAgrupaciones } from "@/hooks/useFilterData";
+import { useCargos } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 const Index = () => {
-  const [agrupacion, setAgrupacion] = useState<string>("");
-  const { data: agrupaciones, isLoading } = useAgrupaciones();
+  const [cargo, setCargo] = useState<string>("");
+  const { data: cargos, isLoading } = useCargos();
   const navigate = useNavigate();
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (agrupacion) params.set("agrupacion", agrupacion);
+    if (cargo) params.set("cargo", cargo);
     navigate(`/resultados?${params.toString()}`);
   };
 
@@ -35,13 +35,13 @@ const Index = () => {
 
           <div className="bg-card rounded-2xl border border-border p-8 space-y-6 shadow-sm">
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Agrupación</label>
-              <Select value={agrupacion} onValueChange={setAgrupacion}>
+              <label className="text-sm font-medium text-foreground">Cargo</label>
+              <Select value={cargo} onValueChange={setCargo}>
                 <SelectTrigger className="h-12 text-base">
-                  <SelectValue placeholder={isLoading ? "Cargando..." : "Selecciona una agrupación"} />
+                  <SelectValue placeholder={isLoading ? "Cargando..." : "Selecciona un cargo"} />
                 </SelectTrigger>
                 <SelectContent>
-                  {agrupaciones?.map((opt) => (
+                  {cargos?.map((opt) => (
                     <SelectItem key={opt.value} value={opt.value}>
                       {opt.label}
                     </SelectItem>
@@ -52,7 +52,7 @@ const Index = () => {
 
             <Button
               onClick={handleSearch}
-              disabled={!agrupacion}
+              disabled={!cargo}
               className="w-full h-12 text-base font-semibold gap-2"
               size="lg"
             >

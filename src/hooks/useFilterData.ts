@@ -1,35 +1,35 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-export const useAgrupaciones = () =>
+export const useCargos = () =>
   useQuery({
-    queryKey: ["agrupaciones"],
+    queryKey: ["cargos"],
     queryFn: async () => {
       const { data, error } = await supabase
         .from("malla_formacion")
-        .select("agrupacion")
-        .not("agrupacion", "is", null)
-        .order("agrupacion");
+        .select("cargo")
+        .not("cargo", "is", null)
+        .order("cargo");
       if (error) throw error;
-      const unique = [...new Set(data.map((d) => d.agrupacion))].filter(Boolean);
+      const unique = [...new Set(data.map((d) => d.cargo))].filter(Boolean);
       return unique.map((name) => ({ value: name!, label: name! }));
     },
   });
 
-export const useCursosByAgrupacion = (agrupacion?: string) =>
+export const useCursosByCargo = (cargo?: string) =>
   useQuery({
-    queryKey: ["cursos-malla", agrupacion],
+    queryKey: ["cursos-malla", cargo],
     queryFn: async () => {
       let query = supabase
         .from("malla_formacion")
         .select("*")
         .order("esencial");
 
-      if (agrupacion) query = query.eq("agrupacion", agrupacion);
+      if (cargo) query = query.eq("cargo", cargo);
 
       const { data, error } = await query;
       if (error) throw error;
       return data;
     },
-    enabled: !!agrupacion,
+    enabled: !!cargo,
   });

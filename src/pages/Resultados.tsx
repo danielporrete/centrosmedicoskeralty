@@ -1,6 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { useCursosByAgrupacion } from "@/hooks/useFilterData";
+import { useCursosByCargo } from "@/hooks/useFilterData";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Building2, Layers } from "lucide-react";
@@ -9,8 +9,8 @@ const Resultados = () => {
   const [params] = useSearchParams();
   const navigate = useNavigate();
 
-  const agrupacion = params.get("agrupacion") || undefined;
-  const { data: courses, isLoading } = useCursosByAgrupacion(agrupacion);
+  const cargo = params.get("cargo") || undefined;
+  const { data: courses, isLoading } = useCursosByCargo(cargo);
 
   return (
     <Layout>
@@ -23,7 +23,7 @@ const Resultados = () => {
             <h2 className="text-2xl font-bold text-primary">Resultados</h2>
             <p className="text-muted-foreground">
               {isLoading ? "Buscando cursos..." : `${courses?.length ?? 0} curso(s) encontrado(s)`}
-              {agrupacion && <span className="ml-2">— {agrupacion}</span>}
+              {cargo && <span className="ml-2">— {cargo}</span>}
             </p>
           </div>
         </div>

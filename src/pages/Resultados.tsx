@@ -293,6 +293,8 @@ const Resultados = () => {
               {/* Ejes formativos fundamentales & diferenciales */}
               {sections.slice(1).map((section, i) => {
                 const idx = i + 1;
+                const isFundamental = idx === 1;
+                const fundamentalData = fundamentales || [];
                 return (
                   <section
                     key={section.title}
@@ -310,9 +312,55 @@ const Resultados = () => {
                       </Button>
                     </div>
                     {!collapsed[idx] && (
-                      <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
-                        Contenido próximamente...
-                      </div>
+                      isFundamental ? (
+                        isLoadingFundamentales ? (
+                          <p className="text-sm text-muted-foreground">Cargando...</p>
+                        ) : fundamentalData.length > 0 ? (
+                          viewMode === "tabla" ? (
+                            <UITable>
+                              <TableHeader>
+                                <TableRow>
+                                  <TableHead className="font-bold">Fundamental</TableHead>
+                                  <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
+                                </TableRow>
+                              </TableHeader>
+                              <TableBody>
+                                {fundamentalData.map((item: any) => (
+                                  <TableRow key={item.id}>
+                                    <TableCell>
+                                      <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
+                                      {herramientaTag && (
+                                        <Badge variant="secondary" className="mt-1 text-xs">{herramientaTag}</Badge>
+                                      )}
+                                    </TableCell>
+                                    <TableCell className="text-muted-foreground text-sm">{item.objetivo_aprendizaje}</TableCell>
+                                  </TableRow>
+                                ))}
+                              </TableBody>
+                            </UITable>
+                          ) : (
+                            <div className="space-y-4">
+                              {fundamentalData.map((item: any) => (
+                                <div key={item.id} className="pl-3 border-l-2 border-secondary/30">
+                                  <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
+                                  {herramientaTag && (
+                                    <Badge variant="secondary" className="mt-1 text-xs">{herramientaTag}</Badge>
+                                  )}
+                                  {item.objetivo_aprendizaje && (
+                                    <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                          )
+                        ) : (
+                          <p className="text-sm text-muted-foreground">Sin resultados para los filtros seleccionados.</p>
+                        )
+                      ) : (
+                        <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
+                          Contenido próximamente...
+                        </div>
+                      )
                     )}
                   </section>
                 );

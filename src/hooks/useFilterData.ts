@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 async function fetchAllRows(
-  table: "malla_formacion" | "malla_fundamental" | "sedes_servicios_colores",
+  table: "malla_formacion" | "malla_fundamental" | "sedes_servicios_colores" | "malla_diferenciales",
   select: string,
   filters?: (q: any) => any,
   batchSize = 1000
@@ -135,4 +135,32 @@ export const useHerramientaTecnologica = (cargo?: string, linea?: string) =>
       return sorted.length > 0 ? sorted[0][0] : null;
     },
     enabled: !!cargo,
+  });
+
+export const useDiferencialesByLinea = (linea?: string) =>
+  useQuery({
+    queryKey: ["diferenciales-linea", linea],
+    queryFn: async () => {
+      const data = await fetchAllRows(
+        "malla_diferenciales",
+        "diferencial_linea,objetivo_aprendizaje_linea,linea",
+        (q: any) => q.eq("linea", linea).not("diferencial_linea", "is", null)
+      );
+      // Count occurrences of diferencial_linea
+      const counts: Record<string, { count: number; objetivo: string | null }> = {};
+      data.forEach((d: any) => {
+        if (d.diferencial_linea) {
+          if (!counts[d.diferencial_linea]) {
+            counts[d.diferencial_linea] = { count: 0, objetivo: d.objetivo_aprendizaje_linea };
+          }
+          counts[d.diferencial_linea].count++;
+        }
+      });
+      const sorted = Object.entries(counts).sort((a, b) => b[1].count - a[1].count);
+      if (sorted.length > 0) {
+        return { titulo: sorted[0][0], objetivo: sorted[0][1].objetivo };
+      }
+      return null;
+    },
+    enabled: !!linea,
   });

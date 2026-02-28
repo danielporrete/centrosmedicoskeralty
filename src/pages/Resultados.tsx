@@ -2,7 +2,7 @@ import { useState, ReactNode } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo, useFundamentalesByCargo, useHerramientaTecnologica } from "@/hooks/useFilterData";
+import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo, useFundamentalesByCargo, useHerramientaTecnologica, useDiferencialesByLinea } from "@/hooks/useFilterData";
 import { Badge } from "@/components/ui/badge";
 import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
@@ -46,6 +46,9 @@ const Resultados = () => {
   );
   const { data: herramientaTag } = useHerramientaTecnologica(
     params.get("cargo") || undefined,
+    params.get("linea") || undefined
+  );
+  const { data: diferencialLinea, isLoading: isLoadingDiferenciales } = useDiferencialesByLinea(
     params.get("linea") || undefined
   );
 
@@ -367,9 +370,47 @@ const Resultados = () => {
                         </div>
                         </>
                       ) : (
-                        <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
-                          Contenido próximamente...
+                        <>
+                        {/* Subsección Curso */}
+                        <div className="mb-6">
+                          <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Curso</h3>
+                          {isLoadingDiferenciales ? (
+                            <p className="text-sm text-muted-foreground">Cargando...</p>
+                          ) : diferencialLinea ? (
+                            viewMode === "tabla" ? (
+                              <UITable>
+                                <TableHeader>
+                                  <TableRow>
+                                    <TableHead className="font-bold">Diferencial</TableHead>
+                                    <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
+                                  </TableRow>
+                                </TableHeader>
+                                <TableBody>
+                                  <TableRow>
+                                    <TableCell className="font-bold text-foreground text-sm">{diferencialLinea.titulo}</TableCell>
+                                    <TableCell className="text-muted-foreground text-sm">{diferencialLinea.objetivo}</TableCell>
+                                  </TableRow>
+                                </TableBody>
+                              </UITable>
+                            ) : (
+                              <div className="pl-3 border-l-2 border-accent/30">
+                                <p className="font-bold text-foreground text-sm">{diferencialLinea.titulo}</p>
+                                {diferencialLinea.objetivo && (
+                                  <p className="text-muted-foreground text-sm mt-1">{diferencialLinea.objetivo}</p>
+                                )}
+                              </div>
+                            )
+                          ) : (
+                            <p className="text-sm text-muted-foreground">Sin resultados para los filtros seleccionados.</p>
+                          )}
                         </div>
+
+                        {/* Subsección Servicio */}
+                        <div>
+                          <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Servicio</h3>
+                          <p className="text-sm text-muted-foreground">Contenido próximamente...</p>
+                        </div>
+                        </>
                       )
                     )}
                   </section>

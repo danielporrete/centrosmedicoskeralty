@@ -48,6 +48,9 @@ const Resultados = () => {
     params.get("cargo") || undefined,
     params.get("linea") || undefined
   );
+  const { data: diferencialLinea, isLoading: isLoadingDiferenciales } = useDiferencialesByLinea(
+    params.get("linea") || undefined
+  );
 
   // Split esenciales into Normativos (matching selected linea) and Centros Médicos
   const esenciales = cursosMalla?.filter((c: any) => c.esencial) || [];

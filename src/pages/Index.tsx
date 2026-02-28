@@ -3,25 +3,34 @@ import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCargos, useLineasByCargo } from "@/hooks/useFilterData";
+import { useCargos, useLineasByCargo, useServiciosByLinea } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 const Index = () => {
   const [cargo, setCargo] = useState<string>("");
   const [linea, setLinea] = useState<string>("");
+  const [servicio, setServicio] = useState<string>("");
   const { data: cargos, isLoading } = useCargos();
   const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);
+  const { data: servicios, isLoading: isLoadingServicios } = useServiciosByLinea(linea || undefined);
   const navigate = useNavigate();
 
   const handleCargoChange = (value: string) => {
     setCargo(value);
     setLinea("");
+    setServicio("");
+  };
+
+  const handleLineaChange = (value: string) => {
+    setLinea(value);
+    setServicio("");
   };
 
   const handleSearch = () => {
     const params = new URLSearchParams();
     if (cargo) params.set("cargo", cargo);
     if (linea) params.set("linea", linea);
+    if (servicio) params.set("servicio", servicio);
     navigate(`/resultados?${params.toString()}`);
   };
 
@@ -60,12 +69,28 @@ const Index = () => {
 
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Línea</label>
-              <Select value={linea} onValueChange={setLinea} disabled={!cargo}>
+              <Select value={linea} onValueChange={handleLineaChange} disabled={!cargo}>
                 <SelectTrigger className="h-12 text-base">
                   <SelectValue placeholder={!cargo ? "Selecciona un cargo primero" : isLoadingLineas ? "Cargando..." : "Selecciona una línea"} />
                 </SelectTrigger>
                 <SelectContent>
                   {lineas?.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Servicio</label>
+              <Select value={servicio} onValueChange={setServicio} disabled={!linea}>
+                <SelectTrigger className="h-12 text-base">
+                  <SelectValue placeholder={!linea ? "Selecciona una línea primero" : isLoadingServicios ? "Cargando..." : "Selecciona un servicio"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {servicios?.map((opt) => (
                     <SelectItem key={opt.value} value={opt.value}>
                       {opt.label}
                     </SelectItem>

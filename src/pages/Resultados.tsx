@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCargos, useLineasByCargo, useServiciosByLinea } from "@/hooks/useFilterData";
+import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award } from "lucide-react";
 import KeraltyLogo from "@/components/KeraltyLogo";
 import {
@@ -27,6 +27,15 @@ const Resultados = () => {
   const { data: cargos, isLoading } = useCargos();
   const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);
   const { data: servicios, isLoading: isLoadingServicios } = useServiciosByLinea(linea || undefined);
+  const { data: cursosMalla, isLoading: isLoadingCursos } = useCursosByCargo(
+    params.get("cargo") || undefined,
+    params.get("linea") || undefined
+  );
+
+  // Split esenciales into Normativos (matching selected linea) and Centros Médicos
+  const esenciales = cursosMalla?.filter((c: any) => c.esencial) || [];
+  const normativos = esenciales.filter((c: any) => c.linea !== "Temas específicos centros médicos");
+  const centrosMedicos = esenciales.filter((c: any) => c.linea === "Temas específicos centros médicos");
 
   const handleCargoChange = (value: string) => {
     setCargo(value);
@@ -150,7 +159,47 @@ const Resultados = () => {
 
             {/* 3 Horizontal Sections */}
             <div className="space-y-6">
-              {sections.map((section) => (
+              {/* Ejes formativos esenciales */}
+              <section className={`rounded-2xl border ${sections[0].borderColor} bg-card p-6`}>
+                <div className="flex items-center gap-3 mb-4">
+                  <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${sections[0].color}`}>
+                    <BookOpen className="w-5 h-5" />
+                  </div>
+                  <h2 className="text-xl font-bold text-foreground">{sections[0].title}</h2>
+                </div>
+
+                {/* Subsección Normativos */}
+                <div className="mb-6">
+                  <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Normativos</h3>
+                  {isLoadingCursos ? (
+                    <p className="text-sm text-muted-foreground">Cargando...</p>
+                  ) : normativos.length > 0 ? (
+                    <div className="space-y-4">
+                      {normativos.map((item: any) => (
+                        <div key={item.id} className="pl-3 border-l-2 border-primary/30">
+                          <p className="font-bold text-foreground text-sm">{item.esencial}</p>
+                          {item.objetivo_aprendizaje && (
+                            <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">Sin resultados para los filtros seleccionados.</p>
+                  )}
+                </div>
+
+                {/* Subsección Centros Médicos */}
+                <div>
+                  <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Centros Médicos</h3>
+                  <div className="min-h-[60px] flex items-center justify-center text-muted-foreground text-sm">
+                    Contenido próximamente...
+                  </div>
+                </div>
+              </section>
+
+              {/* Ejes formativos fundamentales & diferenciales */}
+              {sections.slice(1).map((section) => (
                 <section
                   key={section.title}
                   className={`rounded-2xl border ${section.borderColor} bg-card p-6`}

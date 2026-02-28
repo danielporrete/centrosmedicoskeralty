@@ -146,7 +146,6 @@ export const useDiferencialesByLinea = (linea?: string) =>
         "diferencial_linea,objetivo_aprendizaje_linea,linea",
         (q: any) => q.eq("linea", linea).not("diferencial_linea", "is", null)
       );
-      // Count occurrences of diferencial_linea
       const counts: Record<string, { count: number; objetivo: string | null }> = {};
       data.forEach((d: any) => {
         if (d.diferencial_linea) {
@@ -163,4 +162,21 @@ export const useDiferencialesByLinea = (linea?: string) =>
       return null;
     },
     enabled: !!linea,
+  });
+
+export const useDiferencialesByServicio = (servicio?: string) =>
+  useQuery({
+    queryKey: ["diferenciales-servicio", servicio],
+    queryFn: async () => {
+      const data = await fetchAllRows(
+        "malla_diferenciales",
+        "diferencial_servicio,objetivo_aprendizaje_servicio,servicio",
+        (q: any) => q.eq("servicio", servicio).not("diferencial_servicio", "is", null)
+      );
+      if (data.length > 0) {
+        return { titulo: data[0].diferencial_servicio, objetivo: data[0].objetivo_aprendizaje_servicio };
+      }
+      return null;
+    },
+    enabled: !!servicio,
   });

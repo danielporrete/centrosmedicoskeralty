@@ -13,7 +13,7 @@ const Index = () => {
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (agrupacion) params.set("agrupacion", agrupacion);
+    if (cargo) params.set("cargo", cargo);
     navigate(`/resultados?${params.toString()}`);
   };
 

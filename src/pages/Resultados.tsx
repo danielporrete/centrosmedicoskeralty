@@ -182,16 +182,36 @@ const Resultados = () => {
                 {linea && <span className="bg-secondary/10 text-secondary px-3 py-1 rounded-full font-medium">{linea}</span>}
                 {servicio && <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">{servicio}</span>}
               </div>
-              <ToggleGroup type="single" value={viewMode} onValueChange={(v) => v && setViewMode(v)} className="border border-border rounded-lg p-0.5">
-                <ToggleGroupItem value="texto" aria-label="Vista texto" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                  <AlignLeft className="w-3.5 h-3.5" />
-                  Texto
-                </ToggleGroupItem>
-                <ToggleGroupItem value="tabla" aria-label="Vista tabla" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                  <Table className="w-3.5 h-3.5" />
-                  Tabla
-                </ToggleGroupItem>
-              </ToggleGroup>
+              <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="h-8 px-3 text-xs font-semibold gap-1.5" disabled={!params.get("cargo")}>
+                      <Download className="w-3.5 h-3.5" />
+                      Descargar
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => downloadPDF(viewMode, normativos, fundamentales || [], herramientaTag || null, diferencialLinea || null, diferencialServicio || null, { cargo: params.get("cargo") || "", linea: params.get("linea") || "", servicio: params.get("servicio") || "" })} className="gap-2 cursor-pointer">
+                      <FileText className="w-4 h-4" />
+                      Descargar PDF
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadCSV(normativos, fundamentales || [], herramientaTag || null, diferencialLinea || null, diferencialServicio || null, { cargo: params.get("cargo") || "", linea: params.get("linea") || "", servicio: params.get("servicio") || "" })} className="gap-2 cursor-pointer">
+                      <FileSpreadsheet className="w-4 h-4" />
+                      Descargar CSV
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <ToggleGroup type="single" value={viewMode} onValueChange={(v) => v && setViewMode(v)} className="border border-border rounded-lg p-0.5">
+                  <ToggleGroupItem value="texto" aria-label="Vista texto" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                    <AlignLeft className="w-3.5 h-3.5" />
+                    Texto
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="tabla" aria-label="Vista tabla" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                    <Table className="w-3.5 h-3.5" />
+                    Tabla
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
             </div>
 
             {/* 3 Horizontal Sections */}

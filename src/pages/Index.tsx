@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useAgrupaciones } from "@/hooks/useFilterData";
+import { useCargos } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 const Index = () => {

@@ -27,6 +27,10 @@ const Resultados = () => {
   const [servicio, setServicio] = useState<string>(params.get("servicio") || "");
 
   const [viewMode, setViewMode] = useState<string>("texto");
+  const [collapsed, setCollapsed] = useState<Record<number, boolean>>({});
+
+  const toggleCollapse = (idx: number) =>
+    setCollapsed((prev) => ({ ...prev, [idx]: !prev[idx] }));
 
   const { data: cargos, isLoading } = useCargos();
   const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);

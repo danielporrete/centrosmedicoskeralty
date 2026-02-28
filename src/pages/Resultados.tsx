@@ -23,7 +23,7 @@ const Resultados = () => {
             <h2 className="text-2xl font-bold text-primary">Resultados</h2>
             <p className="text-muted-foreground">
               {isLoading ? "Buscando cursos..." : `${courses?.length ?? 0} curso(s) encontrado(s)`}
-              {agrupacion && <span className="ml-2">— {agrupacion}</span>}
+              {cargo && <span className="ml-2">— {cargo}</span>}
             </p>
           </div>
         </div>

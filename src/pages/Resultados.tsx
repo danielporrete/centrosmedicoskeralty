@@ -26,6 +26,8 @@ const Resultados = () => {
   const [linea, setLinea] = useState<string>(params.get("linea") || "");
   const [servicio, setServicio] = useState<string>(params.get("servicio") || "");
 
+  const [viewMode, setViewMode] = useState<string>("texto");
+
   const { data: cargos, isLoading } = useCargos();
   const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);
   const { data: servicios, isLoading: isLoadingServicios } = useServiciosByLinea(linea || undefined);

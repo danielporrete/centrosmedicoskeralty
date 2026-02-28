@@ -7,8 +7,8 @@ import { useCargos } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 const Index = () => {
-  const [agrupacion, setAgrupacion] = useState<string>("");
-  const { data: agrupaciones, isLoading } = useAgrupaciones();
+  const [cargo, setCargo] = useState<string>("");
+  const { data: cargos, isLoading } = useCargos();
   const navigate = useNavigate();
 
   const handleSearch = () => {

@@ -30,7 +30,7 @@ function parseCSV(text: string): string[][] {
         if (char === '\r') i++;
         row.push(current.trim());
         current = "";
-        if (row.length >= 4) rows.push(row);
+        if (row.length >= 6) rows.push(row);
         row = [];
       } else {
         current += char;
@@ -39,7 +39,7 @@ function parseCSV(text: string): string[][] {
   }
   if (current || row.length > 0) {
     row.push(current.trim());
-    if (row.length >= 4) rows.push(row);
+    if (row.length >= 6) rows.push(row);
   }
   return rows;
 }
@@ -59,10 +59,12 @@ const ImportDiferenciales = () => {
       setStatus(`Parseadas ${dataRows.length} filas. Insertando...`);
 
       const batch = dataRows.map((r) => ({
-        diferencial_linea: r[0] || null,
-        objetivo_aprendizaje_linea: r[1] || null,
-        diferencial_servicio: r[2] || null,
-        objetivo_aprendizaje_servicio: r[3] || null,
+        linea: r[0] || null,
+        diferencial_linea: r[1] || null,
+        objetivo_aprendizaje_linea: r[2] || null,
+        diferencial_servicio: r[3] || null,
+        servicio: r[4] || null,
+        objetivo_aprendizaje_servicio: r[5] || null,
       }));
 
       const { error } = await supabase.from("malla_diferenciales").insert(batch);

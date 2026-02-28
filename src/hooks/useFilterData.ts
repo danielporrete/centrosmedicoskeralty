@@ -1,13 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-async function fetchAllRows<T>(
-  table: string,
+async function fetchAllRows(
+  table: "malla_formacion",
   select: string,
   filters?: (q: any) => any,
   batchSize = 1000
-): Promise<T[]> {
-  const all: T[] = [];
+): Promise<any[]> {
+  const all: any[] = [];
   let offset = 0;
   let hasMore = true;
   while (hasMore) {
@@ -16,7 +16,7 @@ async function fetchAllRows<T>(
     const { data, error } = await q;
     if (error) throw error;
     if (data && data.length > 0) {
-      all.push(...(data as T[]));
+      all.push(...data);
       offset += batchSize;
       hasMore = data.length === batchSize;
     } else {

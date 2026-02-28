@@ -328,10 +328,15 @@ const Resultados = () => {
                                 {fundamentalData.map((item: any) => (
                                   <TableRow key={item.id}>
                                     <TableCell>
-                                      <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
-                                      {herramientaTag && (
-                                        <Badge variant="secondary" className="mt-1 text-xs">{herramientaTag}</Badge>
-                                      )}
+                                      <div className="flex items-center gap-2">
+                                        <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
+                                        {herramientaTag && (
+                                          <span className="text-muted-foreground text-[0.65rem]">Plataforma</span>
+                                        )}
+                                        {herramientaTag && (
+                                          <Badge variant="secondary" className="text-[0.65rem] px-2 py-0 bg-secondary/40">{herramientaTag}</Badge>
+                                        )}
+                                      </div>
                                     </TableCell>
                                     <TableCell className="text-muted-foreground text-sm">{item.objetivo_aprendizaje}</TableCell>
                                   </TableRow>

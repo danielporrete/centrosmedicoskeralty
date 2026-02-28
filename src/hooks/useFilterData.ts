@@ -1,13 +1,19 @@
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
-export const useCategories = () =>
+export const useAgrupaciones = () =>
   useQuery({
-    queryKey: ["categories"],
+    queryKey: ["agrupaciones"],
     queryFn: async () => {
-      const { data, error } = await supabase.from("categories").select("*").order("name");
+      const { data, error } = await supabase
+        .from("malla_formacion")
+        .select("agrupacion")
+        .not("agrupacion", "is", null)
+        .order("agrupacion");
       if (error) throw error;
-      return data;
+      // Get unique values
+      const unique = [...new Set(data.map((d) => d.agrupacion))].filter(Boolean);
+      return unique.map((name) => ({ value: name!, label: name! }));
     },
   });
 

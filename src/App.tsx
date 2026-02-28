@@ -13,7 +13,7 @@ import ImportSedesColores from "./pages/ImportSedesColores";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient({
-  defaultOptions: { queries: { retry: 1 } },
+  defaultOptions: { queries: { retry: 1, staleTime: 5 * 60 * 1000 } },
 });
 
 const App = () => (

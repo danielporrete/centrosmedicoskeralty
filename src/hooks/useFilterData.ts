@@ -57,6 +57,21 @@ export const useLineasByCargo = (cargo?: string) =>
     enabled: !!cargo,
   });
 
+export const useServiciosByLinea = (linea?: string) =>
+  useQuery({
+    queryKey: ["servicios-by-linea", linea],
+    queryFn: async () => {
+      const data = await fetchAllRows(
+        "sedes_servicios_colores" as any,
+        "servicio",
+        (q: any) => q.eq("linea", linea).not("servicio", "is", null).order("servicio")
+      );
+      const unique = [...new Set(data.map((d: any) => d.servicio))].filter(Boolean);
+      return unique.map((name) => ({ value: name!, label: name! }));
+    },
+    enabled: !!linea,
+  });
+
 export const useCursosByCargo = (cargo?: string, linea?: string) =>
   useQuery({
     queryKey: ["cursos-malla", cargo, linea],

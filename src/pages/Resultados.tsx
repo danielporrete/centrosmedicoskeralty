@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
@@ -27,6 +27,10 @@ const Resultados = () => {
   const [servicio, setServicio] = useState<string>(params.get("servicio") || "");
 
   const [viewMode, setViewMode] = useState<string>("texto");
+  const [collapsed, setCollapsed] = useState<Record<number, boolean>>({});
+
+  const toggleCollapse = (idx: number) =>
+    setCollapsed((prev) => ({ ...prev, [idx]: !prev[idx] }));
 
   const { data: cargos, isLoading } = useCargos();
   const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);
@@ -177,13 +181,20 @@ const Resultados = () => {
             <div className="space-y-6">
               {/* Ejes formativos esenciales */}
               <section className={`rounded-2xl border ${sections[0].borderColor} bg-card p-6`}>
-                <div className="flex items-center gap-3 mb-4">
-                  <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${sections[0].color}`}>
-                    <BookOpen className="w-5 h-5" />
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${sections[0].color}`}>
+                      <BookOpen className="w-5 h-5" />
+                    </div>
+                    <h2 className="text-xl font-bold text-foreground">{sections[0].title}</h2>
                   </div>
-                  <h2 className="text-xl font-bold text-foreground">{sections[0].title}</h2>
+                  <Button variant="outline" size="sm" onClick={() => toggleCollapse(0)} className="text-xs">
+                    {collapsed[0] ? "Expandir" : "Minimizar"}
+                  </Button>
                 </div>
 
+                {!collapsed[0] && (
+                <>
                 {/* Subsección Normativos */}
                 <div className="mb-6">
                   <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Normativos</h3>
@@ -266,25 +277,37 @@ const Resultados = () => {
                     );
                   })()}
                 </div>
+                </>
+                )}
               </section>
 
               {/* Ejes formativos fundamentales & diferenciales */}
-              {sections.slice(1).map((section) => (
-                <section
-                  key={section.title}
-                  className={`rounded-2xl border ${section.borderColor} bg-card p-6`}
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${section.color}`}>
-                      <section.icon className="w-5 h-5" />
+              {sections.slice(1).map((section, i) => {
+                const idx = i + 1;
+                return (
+                  <section
+                    key={section.title}
+                    className={`rounded-2xl border ${section.borderColor} bg-card p-6`}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${section.color}`}>
+                          <section.icon className="w-5 h-5" />
+                        </div>
+                        <h2 className="text-xl font-bold text-foreground">{section.title}</h2>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => toggleCollapse(idx)} className="text-xs">
+                        {collapsed[idx] ? "Expandir" : "Minimizar"}
+                      </Button>
                     </div>
-                    <h2 className="text-xl font-bold text-foreground">{section.title}</h2>
-                  </div>
-                  <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
-                    Contenido próximamente...
-                  </div>
-                </section>
-              ))}
+                    {!collapsed[idx] && (
+                      <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
+                        Contenido próximamente...
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
             </div>
           </main>
         </div>

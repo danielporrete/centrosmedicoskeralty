@@ -282,22 +282,32 @@ const Resultados = () => {
               </section>
 
               {/* Ejes formativos fundamentales & diferenciales */}
-              {sections.slice(1).map((section) => (
-                <section
-                  key={section.title}
-                  className={`rounded-2xl border ${section.borderColor} bg-card p-6`}
-                >
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${section.color}`}>
-                      <section.icon className="w-5 h-5" />
+              {sections.slice(1).map((section, i) => {
+                const idx = i + 1;
+                return (
+                  <section
+                    key={section.title}
+                    className={`rounded-2xl border ${section.borderColor} bg-card p-6`}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`flex items-center justify-center w-10 h-10 rounded-xl ${section.color}`}>
+                          <section.icon className="w-5 h-5" />
+                        </div>
+                        <h2 className="text-xl font-bold text-foreground">{section.title}</h2>
+                      </div>
+                      <Button variant="outline" size="sm" onClick={() => toggleCollapse(idx)} className="text-xs">
+                        {collapsed[idx] ? "Expandir" : "Minimizar"}
+                      </Button>
                     </div>
-                    <h2 className="text-xl font-bold text-foreground">{section.title}</h2>
-                  </div>
-                  <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
-                    Contenido próximamente...
-                  </div>
-                </section>
-              ))}
+                    {!collapsed[idx] && (
+                      <div className="min-h-[120px] flex items-center justify-center text-muted-foreground text-sm">
+                        Contenido próximamente...
+                      </div>
+                    )}
+                  </section>
+                );
+              })}
             </div>
           </main>
         </div>

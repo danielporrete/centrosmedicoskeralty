@@ -190,16 +190,35 @@ const Resultados = () => {
                   {isLoadingCursos ? (
                     <p className="text-sm text-muted-foreground">Cargando...</p>
                   ) : normativos.length > 0 ? (
-                    <div className="space-y-4">
-                      {normativos.map((item: any) => (
-                        <div key={item.id} className="pl-3 border-l-2 border-primary/30">
-                          <p className="font-bold text-foreground text-sm">{item.esencial}</p>
-                          {item.objetivo_aprendizaje && (
-                            <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                    viewMode === "tabla" ? (
+                      <UITable>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="font-bold">Esencial</TableHead>
+                            <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {normativos.map((item: any) => (
+                            <TableRow key={item.id}>
+                              <TableCell className="font-bold text-foreground text-sm">{item.esencial}</TableCell>
+                              <TableCell className="text-muted-foreground text-sm">{item.objetivo_aprendizaje}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </UITable>
+                    ) : (
+                      <div className="space-y-4">
+                        {normativos.map((item: any) => (
+                          <div key={item.id} className="pl-3 border-l-2 border-primary/30">
+                            <p className="font-bold text-foreground text-sm">{item.esencial}</p>
+                            {item.objetivo_aprendizaje && (
+                              <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )
                   ) : (
                     <p className="text-sm text-muted-foreground">Sin resultados para los filtros seleccionados.</p>
                   )}

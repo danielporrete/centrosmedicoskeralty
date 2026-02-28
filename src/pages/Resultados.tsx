@@ -328,15 +328,13 @@ const Resultados = () => {
                                 {fundamentalData.map((item: any) => (
                                   <TableRow key={item.id}>
                                     <TableCell>
-                                      <div className="flex items-center gap-2">
-                                        <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
-                                        {herramientaTag && (
+                                      <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
+                                      {herramientaTag && (
+                                        <div className="flex items-center gap-1.5 mt-1">
                                           <span className="text-muted-foreground text-[0.65rem]">Plataforma</span>
-                                        )}
-                                        {herramientaTag && (
                                           <Badge variant="secondary" className="text-[0.65rem] px-2 py-0 bg-secondary/40">{herramientaTag}</Badge>
-                                        )}
-                                      </div>
+                                        </div>
+                                      )}
                                     </TableCell>
                                     <TableCell className="text-muted-foreground text-sm">{item.objetivo_aprendizaje}</TableCell>
                                   </TableRow>
@@ -347,13 +345,13 @@ const Resultados = () => {
                             <div className="space-y-4">
                               {fundamentalData.map((item: any) => (
                                 <div key={item.id} className="pl-3 border-l-2 border-secondary/30">
-                                  <div className="flex items-center gap-2">
+                                  <div className="flex items-center justify-between">
                                     <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
                                     {herramientaTag && (
-                                      <span className="text-muted-foreground text-[0.65rem]">Plataforma</span>
-                                    )}
-                                    {herramientaTag && (
-                                      <Badge variant="secondary" className="text-[0.65rem] px-2 py-0 bg-secondary/40">{herramientaTag}</Badge>
+                                      <div className="flex items-center gap-1.5 shrink-0">
+                                        <span className="text-muted-foreground text-[0.65rem]">Plataforma</span>
+                                        <Badge variant="secondary" className="text-[0.65rem] px-2 py-0 bg-secondary/40">{herramientaTag}</Badge>
+                                      </div>
                                     )}
                                   </div>
                                   {item.objetivo_aprendizaje && (

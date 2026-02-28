@@ -347,10 +347,15 @@ const Resultados = () => {
                             <div className="space-y-4">
                               {fundamentalData.map((item: any) => (
                                 <div key={item.id} className="pl-3 border-l-2 border-secondary/30">
-                                  <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
-                                  {herramientaTag && (
-                                    <Badge variant="secondary" className="mt-1 text-xs">{herramientaTag}</Badge>
-                                  )}
+                                  <div className="flex items-center gap-2">
+                                    <p className="font-bold text-foreground text-sm">{item.fundamental}</p>
+                                    {herramientaTag && (
+                                      <span className="text-muted-foreground text-[0.65rem]">Plataforma</span>
+                                    )}
+                                    {herramientaTag && (
+                                      <Badge variant="secondary" className="text-[0.65rem] px-2 py-0 bg-secondary/40">{herramientaTag}</Badge>
+                                    )}
+                                  </div>
                                   {item.objetivo_aprendizaje && (
                                     <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
                                   )}

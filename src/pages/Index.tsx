@@ -3,26 +3,17 @@ import { useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCategories, useLevels, useAreas } from "@/hooks/useFilterData";
+import { useAgrupaciones } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal } from "lucide-react";
 
 const Index = () => {
-  const [categoryId, setCategoryId] = useState<string>("");
-  const [levelId, setLevelId] = useState<string>("");
-  const [areaId, setAreaId] = useState<string>("");
-
-  const { data: categories, isLoading: loadingCats } = useCategories();
-  const { data: levels, isLoading: loadingLevels } = useLevels();
-  const { data: areas, isLoading: loadingAreas } = useAreas();
+  const [agrupacion, setAgrupacion] = useState<string>("");
+  const { data: agrupaciones, isLoading } = useAgrupaciones();
   const navigate = useNavigate();
-
-  const hasFilters = categoryId || levelId || areaId;
 
   const handleSearch = () => {
     const params = new URLSearchParams();
-    if (categoryId) params.set("category", categoryId);
-    if (levelId) params.set("level", levelId);
-    if (areaId) params.set("area", areaId);
+    if (agrupacion) params.set("agrupacion", agrupacion);
     navigate(`/resultados?${params.toString()}`);
   };
 
@@ -30,7 +21,6 @@ const Index = () => {
     <Layout>
       <div className="flex flex-col items-center justify-center min-h-[70vh]">
         <div className="w-full max-w-xl space-y-8">
-          {/* Header */}
           <div className="text-center space-y-3">
             <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 mb-2">
               <SlidersHorizontal className="w-8 h-8 text-primary" />
@@ -43,36 +33,26 @@ const Index = () => {
             </p>
           </div>
 
-          {/* Filters */}
           <div className="bg-card rounded-2xl border border-border p-8 space-y-6 shadow-sm">
-            <FilterSelect
-              label="Categoría"
-              placeholder="Selecciona una categoría"
-              value={categoryId}
-              onChange={setCategoryId}
-              options={categories?.map((c) => ({ value: c.id, label: c.name })) ?? []}
-              loading={loadingCats}
-            />
-            <FilterSelect
-              label="Nivel"
-              placeholder="Selecciona un nivel"
-              value={levelId}
-              onChange={setLevelId}
-              options={levels?.map((l) => ({ value: l.id, label: l.name })) ?? []}
-              loading={loadingLevels}
-            />
-            <FilterSelect
-              label="Área"
-              placeholder="Selecciona un área"
-              value={areaId}
-              onChange={setAreaId}
-              options={areas?.map((a) => ({ value: a.id, label: a.name })) ?? []}
-              loading={loadingAreas}
-            />
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-foreground">Agrupación</label>
+              <Select value={agrupacion} onValueChange={setAgrupacion}>
+                <SelectTrigger className="h-12 text-base">
+                  <SelectValue placeholder={isLoading ? "Cargando..." : "Selecciona una agrupación"} />
+                </SelectTrigger>
+                <SelectContent>
+                  {agrupaciones?.map((opt) => (
+                    <SelectItem key={opt.value} value={opt.value}>
+                      {opt.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
 
             <Button
               onClick={handleSearch}
-              disabled={!hasFilters}
+              disabled={!agrupacion}
               className="w-full h-12 text-base font-semibold gap-2"
               size="lg"
             >
@@ -85,39 +65,5 @@ const Index = () => {
     </Layout>
   );
 };
-
-function FilterSelect({
-  label,
-  placeholder,
-  value,
-  onChange,
-  options,
-  loading,
-}: {
-  label: string;
-  placeholder: string;
-  value: string;
-  onChange: (val: string) => void;
-  options: { value: string; label: string }[];
-  loading: boolean;
-}) {
-  return (
-    <div className="space-y-2">
-      <label className="text-sm font-medium text-foreground">{label}</label>
-      <Select value={value} onValueChange={onChange}>
-        <SelectTrigger className="h-12 text-base">
-          <SelectValue placeholder={loading ? "Cargando..." : placeholder} />
-        </SelectTrigger>
-        <SelectContent>
-          {options.map((opt) => (
-            <SelectItem key={opt.value} value={opt.value}>
-              {opt.label}
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
 
 export default Index;

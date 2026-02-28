@@ -171,7 +171,7 @@ export const useDiferencialesByServicio = (servicio?: string) =>
       const data = await fetchAllRows(
         "malla_diferenciales",
         "diferencial_servicio,objetivo_aprendizaje_servicio,servicio",
-        (q: any) => q.eq("servicio", servicio).not("diferencial_servicio", "is", null)
+        (q: any) => q.ilike("servicio", servicio).not("diferencial_servicio", "is", null)
       );
       if (data.length > 0) {
         return { titulo: data[0].diferencial_servicio, objetivo: data[0].objetivo_aprendizaje_servicio };

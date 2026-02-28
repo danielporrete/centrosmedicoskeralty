@@ -106,7 +106,7 @@ const Resultados = () => {
         {/* Sidebar with filters */}
         <Sidebar collapsible="icon" className="border-r border-border">
           <SidebarHeader className="p-4 border-b border-border">
-            <KeraltyLogo className="h-8 mx-auto" />
+            <KeraltyLogo className="w-full max-h-12 object-contain mx-auto" />
           </SidebarHeader>
           <SidebarContent className="p-0">
             <SidebarGroup>

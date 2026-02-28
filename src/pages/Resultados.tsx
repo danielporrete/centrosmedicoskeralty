@@ -227,8 +227,8 @@ const Resultados = () => {
                 {/* Subsección Centros Médicos */}
                 <div>
                   <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Centros Médicos</h3>
-                  <div className="space-y-4">
-                    {[
+                  {(() => {
+                    const centrosMedicosData = [
                       { titulo: "Modelo de atención primaria", objetivo: "Comprender los principios del modelo de atención primaria en salud y su aplicación en los servicios, promoviendo la promoción de la salud, la prevención de la enfermedad y la atención integral centrada en la persona y la comunidad." },
                       { titulo: "Seguridad del paciente", objetivo: "Identificar los riesgos asociados a la atención en salud y aplicar prácticas seguras para prevenir eventos adversos, fortaleciendo la cultura de seguridad del paciente." },
                       { titulo: "Humanización", objetivo: "Aplicar principios de humanización en la atención en salud, promoviendo el trato digno, empático y respetuoso hacia los usuarios, familias y cuidadores." },
@@ -236,13 +236,35 @@ const Resultados = () => {
                       { titulo: "Bioseguridad y control de infecciones EPP", objetivo: "Aplicar las normas de bioseguridad, prevención y control de infecciones, incluyendo el uso adecuado de los elementos de protección personal (EPP), para proteger al paciente y al personal de salud." },
                       { titulo: "Tecnovigilancia - Uso de dispositivos médicos", objetivo: "Identificar y reportar eventos e incidentes relacionados con dispositivos médicos, aplicando los principios de tecnovigilancia para garantizar su uso seguro y eficaz." },
                       { titulo: "Curso Integral - Servicios Centros Medicos", objetivo: "Desarrollar en los participantes la capacidad de comprender, articular y aplicar de manera integrada todos los servicios que ofrecen los centros medicos, garantizando una visión sistémica que permita optimizar procesos y mejorar la experiencia de los usuarios." },
-                    ].map((item) => (
-                      <div key={item.titulo} className="pl-3 border-l-2 border-primary/30">
-                        <p className="font-bold text-foreground text-sm">{item.titulo}</p>
-                        <p className="text-muted-foreground text-sm mt-1">{item.objetivo}</p>
+                    ];
+                    return viewMode === "tabla" ? (
+                      <UITable>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="font-bold">Esencial</TableHead>
+                            <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {centrosMedicosData.map((item) => (
+                            <TableRow key={item.titulo}>
+                              <TableCell className="font-bold text-foreground text-sm">{item.titulo}</TableCell>
+                              <TableCell className="text-muted-foreground text-sm">{item.objetivo}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </UITable>
+                    ) : (
+                      <div className="space-y-4">
+                        {centrosMedicosData.map((item) => (
+                          <div key={item.titulo} className="pl-3 border-l-2 border-primary/30">
+                            <p className="font-bold text-foreground text-sm">{item.titulo}</p>
+                            <p className="text-muted-foreground text-sm mt-1">{item.objetivo}</p>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })()}
                 </div>
               </section>
 

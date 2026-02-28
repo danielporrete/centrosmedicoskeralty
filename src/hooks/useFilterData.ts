@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 
 async function fetchAllRows(
-  table: "malla_formacion",
+  table: "malla_formacion" | "malla_fundamental" | "sedes_servicios_colores",
   select: string,
   filters?: (q: any) => any,
   batchSize = 1000

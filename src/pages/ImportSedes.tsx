@@ -71,7 +71,7 @@ const ImportSedes = () => {
           nombre_sede: r[2] || null,
           servicio: r[3] || null,
         }));
-        const { error } = await supabase.from("sedes_servicios").insert(batch);
+        const { error } = await supabase.from("sedes_servicios_colores").insert(batch);
         if (error) {
           setStatus(`Error en batch ${i}: ${error.message}`);
           setLoading(false);

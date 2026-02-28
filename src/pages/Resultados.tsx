@@ -276,15 +276,7 @@ const Resultados = () => {
                 <div>
                   <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Centros Médicos</h3>
                   {(() => {
-                    const centrosMedicosData = [
-                      { titulo: "Modelo de atención primaria", objetivo: "Comprender los principios del modelo de atención primaria en salud y su aplicación en los servicios, promoviendo la promoción de la salud, la prevención de la enfermedad y la atención integral centrada en la persona y la comunidad." },
-                      { titulo: "Seguridad del paciente", objetivo: "Identificar los riesgos asociados a la atención en salud y aplicar prácticas seguras para prevenir eventos adversos, fortaleciendo la cultura de seguridad del paciente." },
-                      { titulo: "Humanización", objetivo: "Aplicar principios de humanización en la atención en salud, promoviendo el trato digno, empático y respetuoso hacia los usuarios, familias y cuidadores." },
-                      { titulo: "Protocolos Generales", objetivo: "Reconocer y aplicar los protocolos generales institucionales para estandarizar la atención, mejorar la calidad del servicio y garantizar la seguridad del paciente." },
-                      { titulo: "Bioseguridad y control de infecciones EPP", objetivo: "Aplicar las normas de bioseguridad, prevención y control de infecciones, incluyendo el uso adecuado de los elementos de protección personal (EPP), para proteger al paciente y al personal de salud." },
-                      { titulo: "Tecnovigilancia - Uso de dispositivos médicos", objetivo: "Identificar y reportar eventos e incidentes relacionados con dispositivos médicos, aplicando los principios de tecnovigilancia para garantizar su uso seguro y eficaz." },
-                      { titulo: "Curso Integral - Servicios Centros Medicos", objetivo: "Desarrollar en los participantes la capacidad de comprender, articular y aplicar de manera integrada todos los servicios que ofrecen los centros medicos, garantizando una visión sistémica que permita optimizar procesos y mejorar la experiencia de los usuarios." },
-                    ];
+                    const centrosMedicosData = CENTROS_MEDICOS_DATA;
                     return viewMode === "tabla" ? (
                       <UITable>
                         <TableHeader>

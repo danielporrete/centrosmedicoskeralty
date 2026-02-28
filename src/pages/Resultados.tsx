@@ -40,6 +40,14 @@ const Resultados = () => {
     params.get("cargo") || undefined,
     params.get("linea") || undefined
   );
+  const { data: fundamentales, isLoading: isLoadingFundamentales } = useFundamentalesByCargo(
+    params.get("cargo") || undefined,
+    params.get("linea") || undefined
+  );
+  const { data: herramientaTag } = useHerramientaTecnologica(
+    params.get("cargo") || undefined,
+    params.get("linea") || undefined
+  );
 
   // Split esenciales into Normativos (matching selected linea) and Centros Médicos
   const esenciales = cursosMalla?.filter((c: any) => c.esencial) || [];

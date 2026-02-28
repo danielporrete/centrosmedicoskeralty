@@ -3,7 +3,9 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo } from "@/hooks/useFilterData";
-import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award } from "lucide-react";
+import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table } from "lucide-react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Table as UITable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import KeraltyLogo from "@/components/KeraltyLogo";
 import {
   Sidebar,
@@ -23,6 +25,8 @@ const Resultados = () => {
   const [cargo, setCargo] = useState<string>(params.get("cargo") || "");
   const [linea, setLinea] = useState<string>(params.get("linea") || "");
   const [servicio, setServicio] = useState<string>(params.get("servicio") || "");
+
+  const [viewMode, setViewMode] = useState<string>("texto");
 
   const { data: cargos, isLoading } = useCargos();
   const { data: lineas, isLoading: isLoadingLineas } = useLineasByCargo(cargo || undefined);
@@ -151,10 +155,22 @@ const Resultados = () => {
 
           <main className="flex-1 p-6 space-y-6 bg-background overflow-auto">
             {/* Summary bar */}
-            <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-              {cargo && <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">{cargo}</span>}
-              {linea && <span className="bg-secondary/10 text-secondary px-3 py-1 rounded-full font-medium">{linea}</span>}
-              {servicio && <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">{servicio}</span>}
+            <div className="flex items-center justify-between">
+              <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
+                {cargo && <span className="bg-primary/10 text-primary px-3 py-1 rounded-full font-medium">{cargo}</span>}
+                {linea && <span className="bg-secondary/10 text-secondary px-3 py-1 rounded-full font-medium">{linea}</span>}
+                {servicio && <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">{servicio}</span>}
+              </div>
+              <ToggleGroup type="single" value={viewMode} onValueChange={(v) => v && setViewMode(v)} className="border border-border rounded-lg p-0.5">
+                <ToggleGroupItem value="texto" aria-label="Vista texto" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                  <AlignLeft className="w-3.5 h-3.5" />
+                  Texto
+                </ToggleGroupItem>
+                <ToggleGroupItem value="tabla" aria-label="Vista tabla" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                  <Table className="w-3.5 h-3.5" />
+                  Tabla
+                </ToggleGroupItem>
+              </ToggleGroup>
             </div>
 
             {/* 3 Horizontal Sections */}
@@ -174,16 +190,35 @@ const Resultados = () => {
                   {isLoadingCursos ? (
                     <p className="text-sm text-muted-foreground">Cargando...</p>
                   ) : normativos.length > 0 ? (
-                    <div className="space-y-4">
-                      {normativos.map((item: any) => (
-                        <div key={item.id} className="pl-3 border-l-2 border-primary/30">
-                          <p className="font-bold text-foreground text-sm">{item.esencial}</p>
-                          {item.objetivo_aprendizaje && (
-                            <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
-                          )}
-                        </div>
-                      ))}
-                    </div>
+                    viewMode === "tabla" ? (
+                      <UITable>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="font-bold">Esencial</TableHead>
+                            <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {normativos.map((item: any) => (
+                            <TableRow key={item.id}>
+                              <TableCell className="font-bold text-foreground text-sm">{item.esencial}</TableCell>
+                              <TableCell className="text-muted-foreground text-sm">{item.objetivo_aprendizaje}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </UITable>
+                    ) : (
+                      <div className="space-y-4">
+                        {normativos.map((item: any) => (
+                          <div key={item.id} className="pl-3 border-l-2 border-primary/30">
+                            <p className="font-bold text-foreground text-sm">{item.esencial}</p>
+                            {item.objetivo_aprendizaje && (
+                              <p className="text-muted-foreground text-sm mt-1">{item.objetivo_aprendizaje}</p>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )
                   ) : (
                     <p className="text-sm text-muted-foreground">Sin resultados para los filtros seleccionados.</p>
                   )}
@@ -192,8 +227,8 @@ const Resultados = () => {
                 {/* Subsección Centros Médicos */}
                 <div>
                   <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Centros Médicos</h3>
-                  <div className="space-y-4">
-                    {[
+                  {(() => {
+                    const centrosMedicosData = [
                       { titulo: "Modelo de atención primaria", objetivo: "Comprender los principios del modelo de atención primaria en salud y su aplicación en los servicios, promoviendo la promoción de la salud, la prevención de la enfermedad y la atención integral centrada en la persona y la comunidad." },
                       { titulo: "Seguridad del paciente", objetivo: "Identificar los riesgos asociados a la atención en salud y aplicar prácticas seguras para prevenir eventos adversos, fortaleciendo la cultura de seguridad del paciente." },
                       { titulo: "Humanización", objetivo: "Aplicar principios de humanización en la atención en salud, promoviendo el trato digno, empático y respetuoso hacia los usuarios, familias y cuidadores." },
@@ -201,13 +236,35 @@ const Resultados = () => {
                       { titulo: "Bioseguridad y control de infecciones EPP", objetivo: "Aplicar las normas de bioseguridad, prevención y control de infecciones, incluyendo el uso adecuado de los elementos de protección personal (EPP), para proteger al paciente y al personal de salud." },
                       { titulo: "Tecnovigilancia - Uso de dispositivos médicos", objetivo: "Identificar y reportar eventos e incidentes relacionados con dispositivos médicos, aplicando los principios de tecnovigilancia para garantizar su uso seguro y eficaz." },
                       { titulo: "Curso Integral - Servicios Centros Medicos", objetivo: "Desarrollar en los participantes la capacidad de comprender, articular y aplicar de manera integrada todos los servicios que ofrecen los centros medicos, garantizando una visión sistémica que permita optimizar procesos y mejorar la experiencia de los usuarios." },
-                    ].map((item) => (
-                      <div key={item.titulo} className="pl-3 border-l-2 border-primary/30">
-                        <p className="font-bold text-foreground text-sm">{item.titulo}</p>
-                        <p className="text-muted-foreground text-sm mt-1">{item.objetivo}</p>
+                    ];
+                    return viewMode === "tabla" ? (
+                      <UITable>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="font-bold">Esencial</TableHead>
+                            <TableHead className="font-bold">Objetivo de aprendizaje</TableHead>
+                          </TableRow>
+                        </TableHeader>
+                        <TableBody>
+                          {centrosMedicosData.map((item) => (
+                            <TableRow key={item.titulo}>
+                              <TableCell className="font-bold text-foreground text-sm">{item.titulo}</TableCell>
+                              <TableCell className="text-muted-foreground text-sm">{item.objetivo}</TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </UITable>
+                    ) : (
+                      <div className="space-y-4">
+                        {centrosMedicosData.map((item) => (
+                          <div key={item.titulo} className="pl-3 border-l-2 border-primary/30">
+                            <p className="font-bold text-foreground text-sm">{item.titulo}</p>
+                            <p className="text-muted-foreground text-sm mt-1">{item.objetivo}</p>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })()}
                 </div>
               </section>
 

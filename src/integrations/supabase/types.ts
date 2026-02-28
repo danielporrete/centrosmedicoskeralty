@@ -132,24 +132,30 @@ export type Database = {
           diferencial_linea: string | null
           diferencial_servicio: string | null
           id: string
+          linea: string | null
           objetivo_aprendizaje_linea: string | null
           objetivo_aprendizaje_servicio: string | null
+          servicio: string | null
         }
         Insert: {
           created_at?: string
           diferencial_linea?: string | null
           diferencial_servicio?: string | null
           id?: string
+          linea?: string | null
           objetivo_aprendizaje_linea?: string | null
           objetivo_aprendizaje_servicio?: string | null
+          servicio?: string | null
         }
         Update: {
           created_at?: string
           diferencial_linea?: string | null
           diferencial_servicio?: string | null
           id?: string
+          linea?: string | null
           objetivo_aprendizaje_linea?: string | null
           objetivo_aprendizaje_servicio?: string | null
+          servicio?: string | null
         }
         Relationships: []
       }
@@ -219,33 +225,6 @@ export type Database = {
           linea?: string | null
           objetivo_aprendizaje?: string | null
           responsable?: string | null
-        }
-        Relationships: []
-      }
-      sedes_servicios: {
-        Row: {
-          ciudad: string | null
-          created_at: string
-          id: string
-          nombre_sede: string | null
-          sede_reps: string | null
-          servicio: string | null
-        }
-        Insert: {
-          ciudad?: string | null
-          created_at?: string
-          id?: string
-          nombre_sede?: string | null
-          sede_reps?: string | null
-          servicio?: string | null
-        }
-        Update: {
-          ciudad?: string | null
-          created_at?: string
-          id?: string
-          nombre_sede?: string | null
-          sede_reps?: string | null
-          servicio?: string | null
         }
         Relationships: []
       }

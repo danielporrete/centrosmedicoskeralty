@@ -4,10 +4,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button";
 import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo, useFundamentalesByCargo, useHerramientaTecnologica, useDiferencialesByLinea, useDiferencialesByServicio } from "@/hooks/useFilterData";
 import { Badge } from "@/components/ui/badge";
-import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table } from "lucide-react";
+import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table, Download, FileText, FileSpreadsheet } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Table as UITable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import KeraltyLogo from "@/components/KeraltyLogo";
+import { downloadPDF, downloadCSV, CENTROS_MEDICOS_DATA } from "@/utils/downloadResults";
 import {
   Sidebar,
   SidebarContent,
@@ -180,16 +182,36 @@ const Resultados = () => {
                 {linea && <span className="bg-secondary/10 text-secondary px-3 py-1 rounded-full font-medium">{linea}</span>}
                 {servicio && <span className="bg-accent/10 text-accent px-3 py-1 rounded-full font-medium">{servicio}</span>}
               </div>
-              <ToggleGroup type="single" value={viewMode} onValueChange={(v) => v && setViewMode(v)} className="border border-border rounded-lg p-0.5">
-                <ToggleGroupItem value="texto" aria-label="Vista texto" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                  <AlignLeft className="w-3.5 h-3.5" />
-                  Texto
-                </ToggleGroupItem>
-                <ToggleGroupItem value="tabla" aria-label="Vista tabla" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-                  <Table className="w-3.5 h-3.5" />
-                  Tabla
-                </ToggleGroupItem>
-              </ToggleGroup>
+              <div className="flex items-center gap-2">
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="h-8 px-3 text-xs font-semibold gap-1.5" disabled={!params.get("cargo")}>
+                      <Download className="w-3.5 h-3.5" />
+                      Descargar
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => downloadPDF(viewMode, normativos, fundamentales || [], herramientaTag || null, diferencialLinea || null, diferencialServicio || null, { cargo: params.get("cargo") || "", linea: params.get("linea") || "", servicio: params.get("servicio") || "" })} className="gap-2 cursor-pointer">
+                      <FileText className="w-4 h-4" />
+                      Descargar PDF
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => downloadCSV(normativos, fundamentales || [], herramientaTag || null, diferencialLinea || null, diferencialServicio || null, { cargo: params.get("cargo") || "", linea: params.get("linea") || "", servicio: params.get("servicio") || "" })} className="gap-2 cursor-pointer">
+                      <FileSpreadsheet className="w-4 h-4" />
+                      Descargar CSV
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+                <ToggleGroup type="single" value={viewMode} onValueChange={(v) => v && setViewMode(v)} className="border border-border rounded-lg p-0.5">
+                  <ToggleGroupItem value="texto" aria-label="Vista texto" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                    <AlignLeft className="w-3.5 h-3.5" />
+                    Texto
+                  </ToggleGroupItem>
+                  <ToggleGroupItem value="tabla" aria-label="Vista tabla" className="h-8 px-3 text-xs font-semibold gap-1.5 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+                    <Table className="w-3.5 h-3.5" />
+                    Tabla
+                  </ToggleGroupItem>
+                </ToggleGroup>
+              </div>
             </div>
 
             {/* 3 Horizontal Sections */}
@@ -254,15 +276,7 @@ const Resultados = () => {
                 <div>
                   <h3 className="text-base font-bold text-foreground border-b border-border pb-2 mb-3">Centros Médicos</h3>
                   {(() => {
-                    const centrosMedicosData = [
-                      { titulo: "Modelo de atención primaria", objetivo: "Comprender los principios del modelo de atención primaria en salud y su aplicación en los servicios, promoviendo la promoción de la salud, la prevención de la enfermedad y la atención integral centrada en la persona y la comunidad." },
-                      { titulo: "Seguridad del paciente", objetivo: "Identificar los riesgos asociados a la atención en salud y aplicar prácticas seguras para prevenir eventos adversos, fortaleciendo la cultura de seguridad del paciente." },
-                      { titulo: "Humanización", objetivo: "Aplicar principios de humanización en la atención en salud, promoviendo el trato digno, empático y respetuoso hacia los usuarios, familias y cuidadores." },
-                      { titulo: "Protocolos Generales", objetivo: "Reconocer y aplicar los protocolos generales institucionales para estandarizar la atención, mejorar la calidad del servicio y garantizar la seguridad del paciente." },
-                      { titulo: "Bioseguridad y control de infecciones EPP", objetivo: "Aplicar las normas de bioseguridad, prevención y control de infecciones, incluyendo el uso adecuado de los elementos de protección personal (EPP), para proteger al paciente y al personal de salud." },
-                      { titulo: "Tecnovigilancia - Uso de dispositivos médicos", objetivo: "Identificar y reportar eventos e incidentes relacionados con dispositivos médicos, aplicando los principios de tecnovigilancia para garantizar su uso seguro y eficaz." },
-                      { titulo: "Curso Integral - Servicios Centros Medicos", objetivo: "Desarrollar en los participantes la capacidad de comprender, articular y aplicar de manera integrada todos los servicios que ofrecen los centros medicos, garantizando una visión sistémica que permita optimizar procesos y mejorar la experiencia de los usuarios." },
-                    ];
+                    const centrosMedicosData = CENTROS_MEDICOS_DATA;
                     return viewMode === "tabla" ? (
                       <UITable>
                         <TableHeader>

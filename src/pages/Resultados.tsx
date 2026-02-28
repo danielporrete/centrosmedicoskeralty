@@ -2,7 +2,7 @@ import { useState, ReactNode } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo, useFundamentalesByCargo, useHerramientaTecnologica, useDiferencialesByLinea } from "@/hooks/useFilterData";
+import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo, useFundamentalesByCargo, useHerramientaTecnologica, useDiferencialesByLinea, useDiferencialesByServicio } from "@/hooks/useFilterData";
 import { Badge } from "@/components/ui/badge";
 import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award, AlignLeft, Table } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";

@@ -1,6 +1,6 @@
 import { useSearchParams, useNavigate } from "react-router-dom";
 import Layout from "@/components/Layout";
-import { useCursosByAgrupacion } from "@/hooks/useFilterData";
+import { useCursosByCargo } from "@/hooks/useFilterData";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Building2, Layers } from "lucide-react";

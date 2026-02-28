@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { useCargos, useLineasByCargo, useServiciosByLinea } from "@/hooks/useFilterData";
+import { useCargos, useLineasByCargo, useServiciosByLinea, useCursosByCargo } from "@/hooks/useFilterData";
 import { Search, SlidersHorizontal, BookOpen, GraduationCap, Award } from "lucide-react";
 import KeraltyLogo from "@/components/KeraltyLogo";
 import {
